@@ -11,7 +11,11 @@ export function parseFriendCode(value) {
 }
 export async function registerSocialProfile() {
   const config = await readSocial('config');
-  if (config?.version !== 1) throw new Error('Friends are temporarily unavailable.');
+  if (config?.version !== 1) {
+    const error = new Error('Friends have not been enabled yet.');
+    error.code = 'SOCIAL_NOT_CONFIGURED';
+    throw error;
+  }
   return socialRequest(`profiles/${socialUid()}`, 'PUT', { nickname: appState.currentUser.slice(0, 80) });
 }
 export async function readAccount() { return await readSocial(`accounts/${socialUid()}`) || {}; }
