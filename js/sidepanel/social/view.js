@@ -1,12 +1,16 @@
+import { selectTab } from '../navigation.js';
 const node = id => document.getElementById(id);
 export function feedback(message, error = false) {
   const target = node('socialFeedback');
   if (target) { target.textContent = message; target.dataset.error = String(error); }
 }
 export function showFriendsPanel(open = true) {
-  node('friends-panel')?.classList.toggle('hidden', !open);
-  node('friendsToggle')?.setAttribute('aria-expanded', String(open));
-  if (open) node('socialToast')?.classList.add('hidden');
+  if (open) {
+    selectTab('friends');
+    node('socialToast')?.classList.add('hidden');
+  } else if (document.querySelector('.nav-tab[data-tab="friends"]')?.classList.contains('active')) {
+    selectTab('rooms');
+  }
 }
 export function setSocialReady(ready, message = '') {
   node('socialLists')?.classList.toggle('hidden', !ready);
@@ -65,7 +69,7 @@ export function renderFriends(account, profiles, rooms) {
   return [...requests.map(([uid, request]) => `request:${uid}:${request.createdAt}`), ...invites.map(([uid, invite]) => `invite:${uid}:${invite.createdAt}`)];
 }
 export function notifySocial(count) {
-  if (!node('friends-panel')?.classList.contains('hidden')) return;
+  if (!node('friends-section')?.classList.contains('hidden')) return;
   if (node('socialToastText')) node('socialToastText').textContent = `${count} new friend request${count === 1 ? '' : 's'} or room invitation${count === 1 ? '' : 's'}.`;
   node('socialToast')?.classList.remove('hidden');
 }

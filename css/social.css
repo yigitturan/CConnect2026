@@ -9,7 +9,7 @@
 .friend-code svg { flex-shrink: 0; }
 .friend-code:hover { color: var(--brand-primary); }
 .social-badge { border-radius: 999px; min-width: 20px; padding: 1px 5px; background: var(--brand-danger); color: white; font-size: 11px; }
-.friends-panel { padding: var(--space-md); background: var(--bg-secondary); border-bottom: 1px solid var(--border-primary); max-height: 65vh; overflow-y: auto; }
+.friends-section { width: 100%; }
 .social-panel-heading { display: flex; justify-content: space-between; align-items: center; }
 .social-panel-heading h2 { font-size: 16px; }
 .social-hint { color: var(--text-muted); font-size: 12px; margin: 8px 0; }
@@ -28,3 +28,8 @@
 .social-empty { color: var(--text-muted); font-size: 12px; }
 .social-toast { position: fixed; bottom: 12px; left: 12px; right: 12px; z-index: 1100; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--bg-card); border: 1px solid var(--brand-primary); box-shadow: var(--shadow-xl); color: var(--text-primary); border-radius: var(--radius-lg); padding: 12px; font-size: 12px; }
 .friend-code:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 3px; }
+
+/* Four sections fit the narrow side panel without widening the header. */
+.nav-tabs .nav-tab { min-width: 0; padding-inline: clamp(4px, 2vw, 12px); gap: 5px; }
+#friendsTab { position: relative; }
+#friendsTab .social-badge { position: absolute; top: 5px; right: 4px; min-width: 16px; font-size: 10px; padding: 0 4px; }
