@@ -1,0 +1,43 @@
+<header class="app-header">
+        <div class="header-content">
+          <div class="header-brand">
+            <div class="logo-small">
+              <svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="logoGradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                  </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="45" fill="none" stroke="url(#logoGradient3)" stroke-width="6"/>
+                <path d="M 70 35 Q 75 50 70 65 Q 65 70 50 70 Q 35 70 30 65 Q 25 50 30 35 Q 35 30 50 30" 
+                      fill="none" stroke="url(#logoGradient3)" stroke-width="6" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="header-info">
+              <h1 class="app-title-small">Cconnect</h1>
+              <div class="social-identity">
+                <span id="socialNickname" class="social-nickname"></span>
+                <button id="copyFriendCode" type="button" class="friend-code" title="Copy your friend code" aria-label="Copy your friend code" disabled>
+                  <span id="myFriendCode">Friend code</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="header-account-actions">
+            <button id="friendsToggle" type="button" class="btn btn-ghost btn-sm" aria-expanded="false" aria-controls="friends-panel" title="Friends and invitations">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span>Friends</span><span id="socialBadge" class="social-badge hidden">0</span>
+            </button>
+          <button id="logoutBtn" class="btn btn-ghost btn-sm">
+            <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16,17 21,12 16,7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            <span>Sign Out</span>
+          </button>
+          </div>
+        </div>
+      </header>

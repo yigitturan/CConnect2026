@@ -1,0 +1,86 @@
+{
+  "social": {
+    ".read": false,
+    ".write": false,
+    "config": {
+      ".read": "auth !== null",
+      ".write": false
+    },
+    "profiles": {
+      "$uid": {
+        ".read": "auth !== null",
+        ".write": "auth !== null && auth.uid === $uid",
+        ".validate": "newData.hasChildren(['nickname'])",
+        "nickname": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 80"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+    "accounts": {
+      "$owner": {
+        ".read": "auth !== null && auth.uid === $owner",
+        "blocks": {
+          "$peer": {
+            ".read": "auth !== null && (auth.uid === $owner || auth.uid === $peer)",
+            ".write": "auth !== null && auth.uid === $owner && $owner !== $peer",
+            ".validate": "newData.val() === true"
+          }
+        },
+        "requests": {
+          "$peer": {
+            ".read": "auth !== null && (auth.uid === $owner || auth.uid === $peer)",
+            ".write": "auth !== null && $owner !== $peer && ((!newData.exists() && (auth.uid === $owner || auth.uid === $peer)) || (auth.uid === $peer && !data.exists() && !root.child('social').child('accounts').child($owner).child('blocks').child($peer).exists() && !root.child('social').child('accounts').child($peer).child('blocks').child($owner).exists() && !root.child('social').child('accounts').child($owner).child('friends').child($peer).exists() && root.child('social').child('profiles').child($owner).exists()))",
+            ".validate": "newData.hasChildren(['from','createdAt'])",
+            "from": {
+              ".validate": "newData.val() === $peer"
+            },
+            "createdAt": {
+              ".validate": "newData.isNumber() && newData.val() <= now + 300000 && newData.val() >= now - 300000"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "friends": {
+          "$peer": {
+            ".read": "auth !== null && (auth.uid === $owner || auth.uid === $peer)",
+            ".write": "auth !== null && $owner !== $peer && ((!newData.exists() && (auth.uid === $owner || auth.uid === $peer)) || (newData.val() === true && !root.child('social').child('accounts').child($owner).child('blocks').child($peer).exists() && !root.child('social').child('accounts').child($peer).child('blocks').child($owner).exists() && ((auth.uid === $owner && root.child('social').child('accounts').child($owner).child('requests').child($peer).child('from').val() === $peer) || (auth.uid === $peer && root.child('social').child('accounts').child($peer).child('requests').child($owner).child('from').val() === $owner))))",
+            ".validate": "newData.val() === true && newData.parent().parent().parent().child($peer).child('friends').child($owner).val() === true"
+          }
+        },
+        "invitations": {
+          "$peer": {
+            ".read": "auth !== null && (auth.uid === $owner || auth.uid === $peer)",
+            ".write": "auth !== null && $owner !== $peer && ((!newData.exists() && (auth.uid === $owner || auth.uid === $peer)) || (auth.uid === $peer && !root.child('social').child('accounts').child($owner).child('blocks').child($peer).exists() && !root.child('social').child('accounts').child($peer).child('blocks').child($owner).exists() && root.child('social').child('accounts').child($owner).child('friends').child($peer).val() === true && root.child('social').child('accounts').child($peer).child('friends').child($owner).val() === true))",
+            ".validate": "newData.hasChildren(['from','type','code','createdAt','expiresAt'])",
+            "from": {
+              ".validate": "newData.val() === $peer"
+            },
+            "type": {
+              ".validate": "newData.val() === 'video' || newData.val() === 'chat'"
+            },
+            "code": {
+              ".validate": "newData.isString() && newData.val().matches(/^[A-Za-z0-9]{6}$/) && ((newData.parent().child('type').val() === 'video' && root.child('videoRooms').child(newData.val()).exists()) || (newData.parent().child('type').val() === 'chat' && root.child('chatRooms').child(newData.val()).exists()))"
+            },
+            "createdAt": {
+              ".validate": "newData.isNumber() && newData.val() <= now + 300000 && newData.val() >= now - 300000"
+            },
+            "expiresAt": {
+              ".validate": "newData.isNumber() && newData.val() > now && newData.val() <= now + 660000"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    }
+  }
+}

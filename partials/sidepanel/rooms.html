@@ -1,0 +1,143 @@
+<div id="rooms-section" class="tab-content">
+          <div class="section-header">
+            <h2 class="section-title">Room Management</h2>
+            <p class="section-subtitle">Create or join rooms to connect with friends</p>
+          </div>
+          
+          <!-- Room Creation -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <svg class="card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="16"></line>
+                  <line x1="8" y1="12" x2="16" y2="12"></line>
+                </svg>
+                Create New Room
+              </h3>
+            </div>
+            
+            <div class="room-types">
+              <div class="room-type-card" id="createVideoChatCodeBtn">
+                <div class="room-type-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="23,7 16,12 23,17 23,7"></polygon>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                  </svg>
+                </div>
+                <div class="room-type-content">
+                  <h4 class="room-type-title">Video Room</h4>
+                  <p class="room-type-description">Real-time video calling</p>
+                </div>
+              </div>
+              
+              <div class="room-type-card" id="createChatCodeBtn">
+                <div class="room-type-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                </div>
+                <div class="room-type-content">
+                  <h4 class="room-type-title">Chat Room</h4>
+                  <p class="room-type-description">Text messaging and conversation</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Generated Codes -->
+            <div id="videoCodeDisplay" class="code-display hidden">
+              <div class="code-card">
+                <div class="code-header">
+                  <span class="code-label">Video Room Code</span>
+                  <button id="copyVideoCodeBtn" class="btn btn-ghost btn-sm">
+                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                  </button>
+                </div>
+                <div class="code-value" id="generatedVideoCode">------</div>
+                <p class="code-instruction">Share this code with your friends</p>
+              </div>
+            </div>
+            
+            <div id="chatCodeDisplay" class="code-display hidden">
+              <div class="code-card">
+                <div class="code-header">
+                  <span class="code-label">Chat Room Code</span>
+                  <button id="copyChatCodeBtn" class="btn btn-ghost btn-sm">
+                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                  </button>
+                </div>
+                <div class="code-value" id="generatedChatCode">------</div>
+                <p class="code-instruction">Share this code with your friends</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Room Joining -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <svg class="card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                  <polyline points="10,17 15,12 10,7"></polyline>
+                  <line x1="15" y1="12" x2="3" y2="12"></line>
+                </svg>
+                Join Room
+              </h3>
+            </div>
+            
+            <div class="join-forms">
+              <div class="join-form">
+                <div class="join-form-header">
+                  <svg class="join-form-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="23,7 16,12 23,17 23,7"></polygon>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                  </svg>
+                  <span>Join Video Room</span>
+                </div>
+                <div class="join-form-body">
+                  <input 
+                    id="videoCodeInput" 
+                    type="text" 
+                    class="input" 
+                    placeholder="Enter 6-digit code" 
+                    maxlength="6"
+                    pattern="[A-Z0-9]{6}"
+                    style="text-transform: uppercase;"
+                  />
+                  <button id="joinVideoRoomBtn" class="btn btn-primary">
+                    <span>Join</span>
+                  </button>
+                </div>
+              </div>
+              
+              <div class="join-form">
+                <div class="join-form-header">
+                  <svg class="join-form-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                  <span>Join Chat Room</span>
+                </div>
+                <div class="join-form-body">
+                  <input 
+                    id="chatCodeInput" 
+                    type="text" 
+                    class="input" 
+                    placeholder="Enter 6-digit code" 
+                    maxlength="6"
+                    pattern="[A-Z0-9]{6}"
+                    style="text-transform: uppercase;"
+                  />
+                  <button id="joinChatRoomBtn" class="btn btn-success">
+                    <span>Join</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>

@@ -1,0 +1,78 @@
+/* Original theme inherits styles.css unchanged. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg-primary: #f8fafc;
+  --bg-secondary: #eef2f7;
+  --bg-tertiary: #e8edf5;
+  --bg-card: #ffffff;
+  --bg-hover: #e2e8f0;
+  --bg-active: #dbe3ef;
+  --text-primary: #172033;
+  --text-secondary: #334155;
+  --text-muted: #526176;
+  --border-primary: #cbd5e1;
+  --border-secondary: #94a3b8;
+  --brand-success: #047857;
+  --brand-warning: #a16207;
+  --brand-danger: #dc2626;
+  --brand-info: #2563eb;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, .06);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, .08);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, .1);
+  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, .12);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-primary: #09090b;
+  --bg-secondary: #111114;
+  --bg-tertiary: #18181c;
+  --bg-card: #1c1c21;
+  --bg-hover: #28282f;
+  --bg-active: #35353e;
+  --text-primary: #fafafa;
+  --text-secondary: #e4e4e7;
+  --text-muted: #a1a1aa;
+  --border-primary: #35353e;
+  --border-secondary: #52525b;
+}
+
+/* Fixed-color login cards and overlays also follow the selected palette. */
+:root:is([data-theme="light"], [data-theme="dark"]) .qs-card {
+  background: linear-gradient(180deg, var(--bg-card), var(--bg-secondary));
+  border-color: var(--border-primary);
+  box-shadow: var(--shadow-lg);
+}
+:root:is([data-theme="light"], [data-theme="dark"]) .qs-title {
+  color: var(--text-secondary);
+}
+:root:is([data-theme="light"], [data-theme="dark"]) .qs-text {
+  color: var(--text-muted);
+}
+:root:is([data-theme="light"], [data-theme="dark"]) .qs-icon {
+  color: var(--brand-primary);
+}
+:root[data-theme="light"] .loading-overlay {
+  background: rgba(248, 250, 252, .92);
+}
+:root[data-theme="dark"] .loading-overlay {
+  background: rgba(9, 9, 11, .92);
+}
+
+.room-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+.theme-toggle {
+  min-width: 36px;
+  min-height: 36px;
+  padding: var(--space-sm);
+}
+.theme-toggle[data-theme="light"] { color: #a16207; }
+.theme-toggle[data-theme="dark"] { color: #c4b5fd; }
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}

@@ -1,0 +1,19 @@
+<section id="friends-panel" class="friends-panel hidden" aria-label="Friends and invitations">
+  <div class="social-panel-heading"><h2>Friends</h2><button id="closeFriendsPanel" type="button" class="btn btn-ghost btn-sm" aria-label="Close friends panel">✕</button></div>
+  <p class="social-hint">Share your friend code, or enter your friend's code to send a request.</p>
+  <form id="addFriendForm" class="add-friend-form">
+    <label class="sr-only" for="friendCodeInput">Friend code</label>
+    <input id="friendCodeInput" class="input" type="text" placeholder="CC-… friend code" maxlength="131" autocomplete="off" required>
+    <button id="addFriendBtn" type="submit" class="btn btn-primary btn-sm">Add friend</button>
+  </form>
+  <p id="socialFeedback" class="social-feedback" role="status" aria-live="polite"></p>
+  <div id="socialLoading" class="social-hint">Sign in to load your friends.</div>
+  <div id="socialLists" class="hidden">
+    <section class="social-section"><h3>Notifications</h3><div id="socialInbox"></div></section>
+    <section class="social-section"><h3>Your friends</h3><p class="social-hint">Join a video or chat room, then invite a friend below.</p><div id="socialFriends"></div></section>
+    <section class="social-section"><h3>Blocked people</h3><div id="socialBlocked"></div></section>
+  </div>
+</section>
+<div id="socialToast" class="social-toast hidden" role="status" aria-live="polite">
+  <span id="socialToastText"></span><button id="viewSocialNotifications" type="button" class="btn btn-primary btn-sm">View</button>
+</div>

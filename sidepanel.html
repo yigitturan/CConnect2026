@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Cconnect - Video Call & Chat</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/social.css">
+  <script src="firebase-app-compat.js"></script>
+  <script src="firebase-database-compat.js"></script>
+  <script src="firebase-firestore-compat.js"></script>
+  <script src="firebase-auth-compat.js"></script>
+  <script type="module" src="sidepanel.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    
+   <!-- ================== LOGIN SCREEN (Google-only, refined) ================== -->
+<template data-component="login"></template>
+
+
+    <!-- ================== SIGNUP SCREEN (removed on purpose) ================== -->
+    <!-- Intentionally removed: email/password sign up, verification flow, and links -->
+
+    <!-- ================== MAIN APP ================== -->
+    <div id="app-container" class="hidden">
+      
+      <!-- Header -->
+      <template data-component="header"></template>
+      <template data-component="friends"></template>
+      
+      <!-- Navigation -->
+      <template data-component="navigation"></template>
+      
+      <!-- Content Area -->
+      <main class="content">
+        <!-- ================== ROOMS SECTION ================== -->
+        <template data-component="rooms"></template>
+
+        <!-- ================== VIDEO SECTION ================== -->
+        <template data-component="video-call"></template>
+
+        <!-- ================== CHAT SECTION ================== -->
+        <template data-component="chat"></template>
+        
+      </main>
+    </div>
+
+     <!-- ================== LOADING OVERLAY ================== -->
+     <template data-component="loading"></template>
+
+    <!-- ================== NOTIFICATION CONTAINER ================== -->
+    <template data-component="notifications"></template>
+
+  </div>
+</body>
+</html>

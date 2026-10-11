@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Cconnect - Video Call & Chat",
+  "description": "Connect with friends through real-time video calls and chat rooms",
+  "version": "1.0.0",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1sjYbNkTBlem5CPqPJzmf75MHmc1bmcHgVg4WZh37tkTYnVG/J2vliLsTaHekFuhvKtn+fykOe3Adb+h4SXba8Oz/ydEJA3BUigmnJhLTZ0bBOErVwTB2IfchM+YMyhj5h91+wIaOtWQoySBKbqgbIPO+s2eK5u6LHHvswaaboX3mNz4Lmiv1G8Gk5C32KZtYGYafOFMXFq/CCSIa3ux/yR3bu3ybYd0bClgTZKtzyZ1TrjwYdXQNo9Crovti451JK1K42WTVe1z4XUOP3+P6MVq6vy48teY+euZzk538yA0CCvia4QOoeguU7PVz7hURdxKIPxX2Fipk+7UYiQuiQIDAQAB",
+  "permissions": [
+    "sidePanel",
+    "identity",
+    "tabs"
+  ],
+  "action": {
+    "default_title": "Open Cconnect - Video Call & Chat",
+    "default_icon": {
+      "16": "icon16.png",
+      "32": "icon32.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://cconnectyigit-default-rtdb.firebaseio.com https://*.firebaseio.com wss://*.firebaseio.com https://accounts.google.com https://www.googleapis.com https://oauth2.googleapis.com https://firestore.googleapis.com https://*.firestore.googleapis.com https://firebase.googleapis.com https://*.firebase.googleapis.com; object-src 'self';"
+  },
+  "oauth2": {
+    "client_id": "731610663845-lcusivrfp2viicfthssffm6kkdfih5i2.apps.googleusercontent.com",
+    "scopes": [
+      "email",
+      "profile"
+    ]
+  }
+}

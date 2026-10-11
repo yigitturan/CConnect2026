@@ -1,0 +1,95 @@
+<div id="chat-container" class="tab-content hidden">
+          <!-- (UNCHANGED) … keep your original Chat section … -->
+          
+          <!-- Chat Header -->
+          <div class="content-header">
+            <div class="content-header-info">
+              <h2 class="content-title">Chat Room</h2>
+              <div class="room-info">
+                <span class="room-code-label">Room:</span>
+                <span id="currentChatCode" class="room-code-value">---</span>
+              </div>
+            </div>
+            <div class="room-header-actions">
+              <button type="button" class="btn btn-ghost btn-sm theme-toggle" data-theme-toggle title="Change theme" aria-label="Change theme">
+                <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 3h10v4l-3 4v9H10v-9L7 7z"></path>
+                  <path d="M7 7h10M10 15h4M10 20h4M9 1V0M15 1V0"></path>
+                </svg>
+              </button>
+            <button id="closeChatRoom" class="btn btn-ghost btn-sm">
+              <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            </div>
+          </div>
+          
+          <!-- Shared Note Area for Chat -->
+          <div class="shared-note-container">
+            <div class="shared-note-header">
+              <svg class="shared-note-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+              </svg>
+              <span class="shared-note-label">Shared Note</span>
+              <button id="clearSharedNoteChatRoom" class="btn-ghost-mini" title="Clear note">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="shared-note-input-wrapper">
+              <input 
+                type="text" 
+                id="sharedNoteInputChatRoom" 
+                class="shared-note-input" 
+                placeholder="Share a link or note with everyone..." 
+                maxlength="300"
+              />
+              <div class="shared-note-status">
+                <span id="sharedNoteLastUpdatedChatRoom" class="last-updated-text">No content</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="chat-wrapper">
+            <!-- Messages Area -->
+            <div id="messages-container" class="messages-area">
+              <div class="empty-state">
+                <svg class="empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <p class="empty-text">No messages yet.<br>Start the conversation!</p>
+              </div>
+            </div>
+
+            <!-- Message Input -->
+            <div class="message-input-container">
+              <div class="message-input-wrapper">
+                <input 
+                  type="text" 
+                  id="messageInput" 
+                  class="message-input" 
+                  placeholder="Type your message..." 
+                  maxlength="500"
+                />
+                <button id="sendMessageBtn" class="send-btn">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22,2 15,22 11,13 2,9 22,2"></polygon>
+                  </svg>
+                </button>
+              </div>
+              <div class="character-count">
+                <small class="character-counter">0/500 characters</small>
+              </div>
+            </div>
+          </div>
+          
+          
+          
+          
+        </div>
