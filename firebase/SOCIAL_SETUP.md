@@ -1,19 +1,22 @@
 # Arkadaşlık sistemini Firebase'de etkinleştirme
 
-Yerel uzantı kodu hazırdır. Canlı Firebase kuralları bu çalışma sırasında okunmamış veya değiştirilmemiştir. Arkadaşlık modülü, `/social/config/version` değeri `1` olmadıkça etkinleşmez; mevcut giriş, oda, mesajlaşma ve görüntülü görüşme çalışmaya devam eder.
+Yerel uzantı kodu hazırdır. Canlı Firebase kuralları bu çalışma sırasında okunmamış veya değiştirilmemiştir. Arkadaşlık modülü giriş sonrasında profilini ve kısa kodunu otomatik kaydeder. `/social/config/version` kaydı gerekmez; önceki zorunlu kontrol kaldırılmıştır.
 
 ## Kurulum
 
 1. Firebase Console → Realtime Database → Rules bölümündeki mevcut kuralları yedekleyin.
-2. `social.rules.fragment.json` dosyasındaki `social` nesnesini mevcut dosyanın `rules` nesnesine ekleyin. Dosya bir **kural parçasıdır**; mevcut oda ve kullanıcı kurallarının yerine tamamını yapıştırmayın.
-3. Kök veya `social` üstünde koşulsuz/geniş `.read` veya `.write` izni varsa önce mevcut oda yolları için eşdeğer, ayrı izinlere ayırın. Üstten verilen izin alt kurallarla geri alınamaz. Mevcut canlı kurallar görülmeden bu geçiş otomatik yapılamaz. Kullanıcıların diğer hesapların tamamını okumasını ve karşı tarafın onayı olmadan arkadaşlık yazmasını engellemek için bu gereklidir.
-4. Rules Playground veya Firebase Emulator Suite ile aşağıdaki senaryoları doğrulayın, sonra kuralları yayınlayın.
-5. Realtime Database → Data üzerinden `/social/config` yoluna `social.config.json` içeriğini (`{"version":1}`) ekleyin. Bu işaretçi yalnızca kurallar uygulandıktan sonra eklenmelidir.
-6. Güncellenmiş uzantıyı iki ayrı Google hesabıyla yükleyip yeniden giriş yapın. Profil kaydı ilk girişte oluşturulur; arkadaş kodu `CC-<Firebase UID>` biçimindedir.
+2. Mevcut kurallar yalnızca kökte `now < 2203718400000` ile tüm okumaları/yazmaları açan paylaşılan kurallarsa, `database.rules.json` dosyasının **tamamını** Rules alanına yapıştırın. Bu dosya mevcut uygulamanın kullandığı yedi eski veri yolu için aynı zaman koşulunu korur ve `social` alanına ayrı kurallar ekler.
+3. Başka uygulamaların kullandığı ek veri yolları varsa bu tam dosyaya onlar için gerekli izinleri de ekleyin. `database.rules.json` yalnızca bu projede kullanılan veri yollarını kapsar. Kökten genel izin tekrar eklemeyin: alt arkadaşlık kurallarını etkisiz bırakır.
+4. Rules Playground veya Firebase Emulator Suite ile aşağıdaki senaryoları doğrulayın, sonra Publish ile yayınlayın.
+5. `chrome://extensions` üzerinden uzantıyı yeniden yükleyin; yeni Firebase sunucu izinleri için Chrome izin sorarsa kabul edin. Çıkış yapıp tekrar Google girişi yapın.
+6. İki ayrı Google hesabıyla deneyin. Profil ve kısa kod ilk girişte otomatik oluşturulur. Arkadaş kodu `CC-XXXXXXXX` (8 karakter) biçimindedir. Her iki kullanıcı da güncellenmiş sürümle en az bir kez giriş yapmalıdır.
+
+`social.rules.fragment.json` mevcut farklı bir kural yapısına birleştirmek için ayrıca korunur. `social.config.json` eski sürümden kalan isteğe bağlı kayıttır; artık etkinleştirme şartı değildir.
 
 ## Veri ve davranış
 
 - `/social/profiles/<uid>` yalnızca görünen adı içerir. E-posta veya erişim anahtarı içermez. Kimliği doğrulanmış kullanıcılar bilinen kodla bu profili okuyabilir; sadece sahibi yazabilir.
+- `/social/codes/<8 karakter>` kısa kodu kalıcı Firebase UID ile eşleştirir. Kod ve profil aynı atomik işlemde yazılır; mevcut kodun sahibi değiştirilemez. Aynı kod doluysa yeni aday denenir. Eski arkadaşlık kayıtlarının UID anahtarları değişmez.
 - `/social/accounts/<uid>/requests/<sender>` gelen arkadaşlık istekleridir.
 - `/social/accounts/<uid>/friends/<peer>` karşılıklı kabul edilen arkadaşlıklardır. Kabul tek çok-yollu PATCH isteğiyle her iki tarafa yazılır ve bekleyen istek silinir.
 - `/social/accounts/<uid>/blocks/<peer>` engellenen kişilerdir. Engelleme arkadaşlığı ve iki yöndeki istekleri kaldırır. Engeli kaldırmak arkadaşlığı geri getirmez.
@@ -36,3 +39,5 @@ Yerel uzantı kodu hazırdır. Canlı Firebase kuralları bu çalışma sırası
 Yerel testler işlev akışlarını taklit Firebase ile kontrol eder; gerçek Firebase Rules doğrulamasının veya iki hesaplı Chrome testinin yerine geçmez.
 
 Referanslar: [REST kimlik doğrulama](https://firebase.google.com/docs/database/rest/auth), [Auth token yenileme](https://firebase.google.com/docs/reference/rest/auth), [güvenlik kurallarının kapsamı](https://firebase.google.com/docs/database/security/core-syntax).
+
+Kısa kod güncellemesinde `profiles/$uid/friendCode` ve `codes/$code` kuralları da yayınlanmalıdır. Config kaydı eklemek gerekli değildir ve güvenlik kurallarının yerine geçmez.

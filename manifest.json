@@ -39,5 +39,12 @@
       "email",
       "profile"
     ]
-  }
+  },
+  "host_permissions": [
+    "https://cconnectyigit-default-rtdb.firebaseio.com/*",
+    "https://identitytoolkit.googleapis.com/*",
+    "https://securetoken.googleapis.com/*",
+    "https://www.googleapis.com/*",
+    "https://oauth2.googleapis.com/*"
+  ]
 }
