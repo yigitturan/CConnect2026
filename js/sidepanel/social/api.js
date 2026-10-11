@@ -51,9 +51,16 @@ export async function socialRequest(path, method = 'GET', body) {
   });
   assertSession(version);
   const data = await response.json();
-  if (!response.ok) throw new Error(response.status === 401 || response.status === 403
-    ? 'This action is not available. Please refresh your friends list or sign in again.'
-    : 'Could not connect. Please try again.');
+  if (!response.ok) {
+    const denied = response.status === 401 || response.status === 403;
+    const error = new Error(denied
+      ? 'Friends access was denied. Please sign in again; if this continues, access must be enabled.'
+      : 'Could not connect. Please try again.');
+    error.code = denied ? 'SOCIAL_ACCESS_DENIED' : 'SOCIAL_REQUEST_FAILED';
+    // Keep tokens and request URLs out of diagnostic output.
+    error.status = response.status;
+    throw error;
+  }
   return data;
 }
 export const readSocial = path => socialRequest(path);

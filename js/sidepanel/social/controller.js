@@ -60,9 +60,16 @@ export async function startFriends() {
     assertSession(version);
     timer = setInterval(() => { void refreshFriends(); }, 5000);
   } catch (error) {
-    if (version === sessionVersion()) view.setSocialReady(false, 'Friends are temporarily unavailable. Please try signing in again later.');
+    if (version === sessionVersion()) {
+      view.setSocialReady(false, error.message || 'Friends are temporarily unavailable.');
+      view.feedback(error.message || 'Could not load friends.', true);
+    }
     // Do not break the existing login, rooms, or calls when social setup is unavailable.
-    console.warn('Friends initialization failed. Check social database configuration.');
+    console.warn('Friends initialization failed:', {
+      code: error.code || 'SOCIAL_INITIALIZATION_FAILED',
+      status: error.status || null,
+      message: error.message
+    });
   }
 }
 function stopPolling() { running = false; if (timer) clearInterval(timer); timer = null; refreshing = null; }
@@ -84,7 +91,10 @@ async function perform(button, action) {
 export function initFriendsUI() {
   document.getElementById('friendsToggle')?.addEventListener('click', () => {
     const open = document.getElementById('friends-panel').classList.contains('hidden');
-    view.showFriendsPanel(open); if (open) void refreshFriends(true);
+    view.showFriendsPanel(open); if (open) {
+      if (running) void refreshFriends(true);
+      else if (socialUid()) void startFriends();
+    }
   });
   document.getElementById('closeFriendsPanel')?.addEventListener('click', () => view.showFriendsPanel(false));
   document.getElementById('viewSocialNotifications')?.addEventListener('click', () => view.showFriendsPanel(true));
