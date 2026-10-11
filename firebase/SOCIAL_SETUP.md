@@ -23,7 +23,7 @@ Yerel uzantı kodu hazırdır. Canlı Firebase kuralları bu çalışma sırası
 - `/social/accounts/<uid>/invitations/<sender>` gelen oda davetleridir. Gönderici başına bir davet saklanır. Davet 10 dakika geçerlidir; kabul sırasında arkadaşlık, engeller ve süre yeniden kontrol edilir. Engelleme veya arkadaşlıktan çıkarma sonrası eski davetler görüntülenmez ve kabul edilemez.
 - Bir odaya giren kullanıcı arkadaş listesindeki Video invite / Chat invite düğmesiyle o odayı paylaşır. Kabul eden kişi manuel oda koduyla girişte kullanılan aynı `joinRoom` işleviyle katılır. Kamera/mikrofon mevcut başlat düğmesiyle açılır.
 - Bildirimler Cconnect paneli açık ve kullanıcı giriş yapmışken 5 saniyede bir kontrol edilir. Panel kapalıyken sistem bildirimi gönderilmez. Bekleyen istek ve geçerli davetler yeniden girişte gösterilir.
-- Oturum anahtarları yalnızca bellekte tutulur, arkadaşlık veritabanına veya localStorage'a yazılmaz. Firebase ID token gerektiğinde refresh token ile yenilenir. Çıkışta istekler ve kontrol zamanlayıcısı geçersizleşir.
+- Oturum anahtarları Chrome storage.local alanında saklanır; arkadaşlık veritabanına veya localStorage'a yazılmaz ve Chrome hesapları arasında senkronize edilmez. Panel kapanınca oturum korunur; Sign Out saklanan kaydı siler. Firebase ID token gerektiğinde refresh token ile yenilenir. Çıkışta istekler ve kontrol zamanlayıcısı geçersizleşir.
 
 ## Firebase'de gerekli doğrulamalar
 

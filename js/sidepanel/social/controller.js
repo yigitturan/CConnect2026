@@ -93,14 +93,12 @@ async function perform(button, action) {
   }
 }
 export function initFriendsUI() {
-  document.getElementById('friendsToggle')?.addEventListener('click', () => {
-    const open = document.getElementById('friends-panel').classList.contains('hidden');
-    view.showFriendsPanel(open); if (open) {
-      if (running) void refreshFriends(true);
-      else if (socialUid()) void startFriends();
-    }
+  document.addEventListener('cconnect:tab-change', event => {
+    if (event.detail.tab !== 'friends') return;
+    document.getElementById('socialToast')?.classList.add('hidden');
+    if (running) void refreshFriends(true);
+    else if (socialUid()) void startFriends();
   });
-  document.getElementById('closeFriendsPanel')?.addEventListener('click', () => view.showFriendsPanel(false));
   document.getElementById('viewSocialNotifications')?.addEventListener('click', () => view.showFriendsPanel(true));
   document.getElementById('copyFriendCode')?.addEventListener('click', () => {
     if (myFriendCode) copyToClipboard(`CC-${myFriendCode}`, 'Friend code copied!');

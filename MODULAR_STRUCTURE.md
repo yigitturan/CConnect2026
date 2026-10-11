@@ -34,3 +34,5 @@ Yerel ES modülleri kullanılır. Özellikler arasındaki mevcut karşılıklı 
 Chrome'da `chrome://extensions` sayfasından uzantıyı yeniden yükleyin. Google girişi, her iki oda türünü oluşturma/katılma/ayrılma, mesaj gönderme, ortak not ve iki cihaz arasında kamera/mikrofon görüşmesini kontrol edin. JavaScript modül yükleme ve taklit DOM/Firebase ile akış kontrolleri yapılmıştır; gerçek Chrome ve iki cihazlı WebRTC testi ayrıca gerekir.
 
 Arkadaşlık başlatması `/social/config/version` kaydına bağlı değildir. Firebase sunucularına HTTP erişimi manifest `host_permissions` alanındadır. Kullanıcının paylaştığı kök zaman izinlerini bu projenin mevcut veri yollarında koruyan tam kural dosyası `firebase/database.rules.json` dosyasıdır; arkadaşlık kuralları bunun `social` bölümünde yer alır.
+
+Friends ayrı bir ana sekmedir (`friends-section`); bildirim sayacı navigasyondaki Friends düğmesinde gösterilir. Bildirimden açma ve oda daveti kabulü ortak `selectTab` geçişini kullanır. Üst başlıkta yalnızca marka, kullanıcı kimliği/kısa kod ve çıkış düğmesi bulunur.

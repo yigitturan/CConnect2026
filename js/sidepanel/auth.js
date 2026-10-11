@@ -1,4 +1,4 @@
-import { setSocialSession } from './social/api.js';
+import { rememberSession, restoreSession, forgetSession } from './session.js';
 import { startFriends } from './social/controller.js';
 import { appState, emailVerificationState } from "./state.js";
 import { elements } from "./elements.js";
@@ -55,6 +55,7 @@ import { cleanup } from "./lifecycle.js";
   }
   
   export function showLoginForm() {
+  if (elements.appContainer) elements.appContainer.classList.add("hidden");
   if (elements.signupScreen) elements.signupScreen.classList.add("hidden");
   if (elements.loginScreen) elements.loginScreen.classList.remove("hidden");
   resetEmailVerificationState();
@@ -83,7 +84,7 @@ import { cleanup } from "./lifecycle.js";
     if (response.success) {
       appState.currentUser = response.nickname || email.split('@')[0];
       appState.currentUserId = response.userId || "";
-      setSocialSession(response);
+      await rememberSession({ ...response, nickname: appState.currentUser });
       showAppInterface();
       await startFriends();
       showMessage(`Welcome back, ${appState.currentUser}!`);
@@ -124,7 +125,7 @@ import { cleanup } from "./lifecycle.js";
     if (response.success) {
       appState.currentUser = response.nickname || "User";
       appState.currentUserId = response.userId || "";
-      setSocialSession(response);
+      await rememberSession({ ...response, nickname: appState.currentUser });
       showAppInterface();
       await startFriends();
       showMessage(`Welcome, ${appState.currentUser}!`);
@@ -144,7 +145,7 @@ import { cleanup } from "./lifecycle.js";
   try {
     showMessage("Signing out...");
     
-    const response = await sendToBackground("logout", {});
+    await forgetSession();
     
     cleanup();
     showLoginForm();
@@ -156,6 +157,7 @@ import { cleanup } from "./lifecycle.js";
     appState.currentChatRoom = "";
     
     showMessage("Signed out successfully");
+    sendToBackground("logout", {}).catch(() => {});
     
   } catch (error) {
     console.error("Logout error:", error);
@@ -170,3 +172,21 @@ import { cleanup } from "./lifecycle.js";
   
   console.log("✅ App interface shown");
   }
+
+export async function restoreSavedLogin() {
+  const buttons = [elements.loginBtn, elements.googleLoginBtn, elements.signupBtn].filter(Boolean);
+  buttons.forEach(button => { button.disabled = true; });
+  try {
+    const saved = await restoreSession();
+    if (!saved) return;
+    appState.currentUser = saved.nickname;
+    appState.currentUserId = saved.userId;
+    showAppInterface();
+    // Show the rooms immediately; social initialization can refresh the token in the background.
+    void startFriends();
+  } catch (error) {
+    showMessage('Saved sign-in could not be loaded. Please reopen the panel.', true);
+  } finally {
+    buttons.forEach(button => { button.disabled = false; });
+  }
+}
