@@ -8,4 +8,4 @@ Proje kökünden macOS JavaScriptCore ile her dosyayı ayrı çalıştırın:
 /System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc tests/room-regression.test.js
 ```
 
-Bu testler taklit DOM/HTTP/Firebase kullanır. `social-model` iki kimlikle arkadaşlık/engelleme/davet işlemlerini; `social-session` eşzamanlı token yenileme ve çıkış yarışını; `room-regression` başlangıç/oda/mesajlaşma ve kamera düğmesi bağlantılarını kontrol eder. Gerçek Firebase Rules ve gerçek WebRTC görüşmesi test edilmez. Canlı kurulum ve test matrisi `firebase/SOCIAL_SETUP.md` içindedir.
+Bu testler taklit DOM/HTTP/Firebase kullanır. `social-model` manuel config kaydı olmadan başlangıcı, kısa kod çakışmalarını ve iki kimlikle arkadaşlık/engelleme/davet işlemlerini; `social-session` eşzamanlı token yenileme ve çıkış yarışını; `room-regression` başlangıç/oda/mesajlaşma ve kamera düğmesi bağlantılarını kontrol eder. Gerçek Firebase Rules ve gerçek WebRTC görüşmesi test edilmez. Canlı kurulum ve test matrisi `firebase/SOCIAL_SETUP.md` içindedir.

@@ -1,3 +1,5 @@
+import { ensureFriendCode, resolveFriendCode } from './friend-codes.js';
+export { parseFriendCode } from './friend-codes.js';
 import { appState } from '../state.js';
 import { readSocial, socialRequest, patchSocial, socialUid, sessionVersion, assertSession } from './api.js';
 
@@ -6,17 +8,8 @@ function validateUid(value) {
   if (!/^[A-Za-z0-9_-]{6,128}$/.test(uid)) throw new Error('Enter a valid friend code.');
   return uid;
 }
-export function parseFriendCode(value) {
-  return validateUid(String(value || '').trim().replace(/^CC-/i, ''));
-}
 export async function registerSocialProfile() {
-  const config = await readSocial('config');
-  if (config?.version !== 1) {
-    const error = new Error('Friends have not been enabled yet.');
-    error.code = 'SOCIAL_NOT_CONFIGURED';
-    throw error;
-  }
-  return socialRequest(`profiles/${socialUid()}`, 'PUT', { nickname: appState.currentUser.slice(0, 80) });
+  return ensureFriendCode(appState.currentUser.slice(0, 80));
 }
 export async function readAccount() { return await readSocial(`accounts/${socialUid()}`) || {}; }
 export async function profile(uid) { return await readSocial(`profiles/${validateUid(uid)}`); }
@@ -34,7 +27,10 @@ async function allowedPeer(peer, friendsRequired = false) {
   return { me, peer, own, version };
 }
 export async function sendFriendRequest(code) {
-  const { me, peer, own, version } = await allowedPeer(parseFriendCode(code));
+  const requestVersion = sessionVersion();
+  const uid = await resolveFriendCode(code);
+  assertSession(requestVersion);
+  const { me, peer, own, version } = await allowedPeer(uid);
   if (own.friends?.[peer]) throw new Error('You are already friends.');
   if (own.requests?.[peer]) throw new Error('This person already sent you a request. Accept it below.');
   const [target, pending] = await Promise.all([profile(peer), readSocial(`accounts/${peer}/requests/${me}`)]);

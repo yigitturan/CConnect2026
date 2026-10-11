@@ -14,10 +14,10 @@ export function setSocialReady(ready, message = '') {
   if (node('socialLoading')) node('socialLoading').textContent = message;
   if (node('addFriendBtn')) node('addFriendBtn').disabled = !ready;
 }
-export function showIdentity(nickname, uid) {
+export function showIdentity(nickname, code) {
   if (node('socialNickname')) node('socialNickname').textContent = nickname;
-  if (node('myFriendCode')) node('myFriendCode').textContent = uid ? `CC-${uid}` : 'Friend code unavailable';
-  if (node('copyFriendCode')) node('copyFriendCode').disabled = !uid;
+  if (node('myFriendCode')) node('myFriendCode').textContent = code ? `CC-${code}` : 'Friend code unavailable';
+  if (node('copyFriendCode')) node('copyFriendCode').disabled = !code;
 }
 function text(tag, className, value) {
   const item = document.createElement(tag); item.className = className; item.textContent = value; return item;
@@ -38,7 +38,7 @@ function list(id, items, empty) {
   node(id)?.replaceChildren(...(items.length ? items : [text('p', 'social-empty', empty)]));
 }
 export function renderFriends(account, profiles, rooms) {
-  const name = uid => profiles[uid]?.nickname || `CC-${uid}`;
+  const name = uid => profiles[uid]?.nickname || 'Cconnect user';
   const blocked = account.blocks || {};
   const friendIds = Object.keys(account.friends || {}).filter(uid => !blocked[uid]);
   const requests = Object.entries(account.requests || {}).filter(([uid, request]) => !blocked[uid] && request.from === uid && !account.friends?.[uid]);
@@ -52,12 +52,12 @@ export function renderFriends(account, profiles, rooms) {
       { label: 'Join room', action: 'accept-invite', peer: uid }, { label: 'Decline', action: 'decline-invite', peer: uid }
     ]))
   ], 'No new requests or invitations.');
-  list('socialFriends', friendIds.map(uid => row(name(uid), `CC-${uid}`, [
+  list('socialFriends', friendIds.map(uid => row(name(uid), profiles[uid]?.friendCode ? `CC-${profiles[uid].friendCode}` : 'Friend', [
     { label: 'Video invite', action: 'invite-video', peer: uid, disabled: !rooms.video },
     { label: 'Chat invite', action: 'invite-chat', peer: uid, disabled: !rooms.chat },
     { label: 'Remove', action: 'remove', peer: uid }, { label: 'Block', action: 'block', peer: uid, danger: true }
   ])), 'No friends yet. Add someone using their friend code.');
-  list('socialBlocked', Object.keys(blocked).map(uid => row(name(uid), `CC-${uid}`, [
+  list('socialBlocked', Object.keys(blocked).map(uid => row(name(uid), profiles[uid]?.friendCode ? `CC-${profiles[uid].friendCode}` : 'Friend', [
     { label: 'Unblock', action: 'unblock', peer: uid }
   ])), 'No blocked people.');
   const count = requests.length + invites.length;

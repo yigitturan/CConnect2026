@@ -10,6 +10,7 @@ let actionPending = false;
 let profiles = {};
 let seen = new Set();
 let lastSignature = '';
+let myFriendCode = '';
 
 export async function refreshFriends(force = false) {
   if (!running || (actionPending && !force)) return;
@@ -50,11 +51,14 @@ export async function refreshFriends(force = false) {
 export async function startFriends() {
   stopPolling();
   profiles = {}; seen = new Set(); lastSignature = '';
-  view.showIdentity(appState.currentUser, socialUid());
+  myFriendCode = '';
+  view.showIdentity(appState.currentUser, '');
   view.feedback(''); view.setSocialReady(false, 'Loading friends…');
   const version = sessionVersion();
   try {
-    await model.registerSocialProfile(); assertSession(version);
+    const code = await model.registerSocialProfile(); assertSession(version);
+    myFriendCode = code;
+    view.showIdentity(appState.currentUser, code);
     running = true;
     await refreshFriends();
     assertSession(version);
@@ -74,7 +78,7 @@ export async function startFriends() {
 }
 function stopPolling() { running = false; if (timer) clearInterval(timer); timer = null; refreshing = null; }
 export function stopFriends() {
-  stopPolling(); clearSocialSession(); profiles = {}; seen = new Set(); lastSignature = ''; view.clearSocialView();
+  stopPolling(); clearSocialSession(); myFriendCode = ''; profiles = {}; seen = new Set(); lastSignature = ''; view.clearSocialView();
 }
 async function perform(button, action) {
   if (actionPending || !running) return;
@@ -99,7 +103,7 @@ export function initFriendsUI() {
   document.getElementById('closeFriendsPanel')?.addEventListener('click', () => view.showFriendsPanel(false));
   document.getElementById('viewSocialNotifications')?.addEventListener('click', () => view.showFriendsPanel(true));
   document.getElementById('copyFriendCode')?.addEventListener('click', () => {
-    if (socialUid()) copyToClipboard(`CC-${socialUid()}`, 'Friend code copied!');
+    if (myFriendCode) copyToClipboard(`CC-${myFriendCode}`, 'Friend code copied!');
   });
   document.getElementById('addFriendForm')?.addEventListener('submit', event => {
     event.preventDefault();
